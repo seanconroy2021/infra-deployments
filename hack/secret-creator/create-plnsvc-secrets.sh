@@ -78,11 +78,11 @@ create_db_cert_secret_and_configmap() {
         -subj "/CN=cluster.local" \
         > /dev/null
     chmod og-rwx ".tmp/tekton-results/ca.key"
-    openssl x509 -req -days 9999 -text -extensions v3_ca \
+    openssl x509 -req -days 9999 -text \
         -signkey ".tmp/tekton-results/ca.key" \
         -in ".tmp/tekton-results/ca.csr" \
-        -extfile "/etc/ssl/openssl.cnf" \
         -out ".tmp/tekton-results/ca.crt" \
+        -extfile <(printf "[v3_ca]\nsubjectKeyIdentifier=hash\nauthorityKeyIdentifier=keyid:always,issuer\nbasicConstraints=CA:TRUE\nkeyUsage=critical,keyCertSign,cRLSign") \
         > /dev/null
     openssl req -new -nodes -text \
         -subj "/CN=postgres-postgresql.tekton-results.svc.cluster.local" \
