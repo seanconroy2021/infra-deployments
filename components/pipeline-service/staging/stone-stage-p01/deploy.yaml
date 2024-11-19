@@ -1717,8 +1717,8 @@ spec:
                 cpu: 200m
                 memory: 200Mi
               requests:
-                cpu: 10m
-                memory: 10Mi
+                cpu: 200m
+                memory: 200Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -2006,6 +2006,9 @@ spec:
                   value: "konflux-tenants"
                   effect: "NoSchedule"
             default-timeout-minutes: "120"
+        config-leader-election-resolvers:
+          data:
+            buckets: "8"
         config-logging:
           data:
             loglevel.controller: info
@@ -2058,10 +2061,10 @@ spec:
                 - name: tekton-pipelines-controller
                   resources:
                     limits:
-                      memory: 2Gi
+                      memory: 12Gi
                     requests:
-                      cpu: 100m
-                      memory: 1Gi
+                      cpu: "1"
+                      memory: 12Gi
                 topologySpreadConstraints:
                 - labelSelector:
                     matchLabels:
@@ -2071,7 +2074,7 @@ spec:
                   whenUnsatisfiable: DoNotSchedule
         tekton-pipelines-remote-resolvers:
           spec:
-            replicas: 2
+            replicas: 4
         tekton-pipelines-webhook:
           spec:
             template:
@@ -2083,8 +2086,8 @@ spec:
                       cpu: "1"
                       memory: 1Gi
                     requests:
-                      cpu: 200m
-                      memory: 200Mi
+                      cpu: 400m
+                      memory: 1Gi
       disabled: false
       horizontalPodAutoscalers:
         tekton-operator-proxy-webhook:
@@ -2148,6 +2151,7 @@ spec:
             namespace }}/pipelinerun/{{ pr }}
           custom-console-url-pr-tasklog: https://konflux.apps.stone-stage-p01.hpmt.p1.openshiftapps.com/application-pipeline/ns/{{
             namespace }}/pipelinerun/{{ pr }}/logs/{{ task }}
+          remember-ok-to-test: "false"
   profile: all
   pruner:
     disabled: true
@@ -2196,7 +2200,7 @@ metadata:
   namespace: openshift-marketplace
 spec:
   displayName: custom-operators
-  image: quay.io/openshift-pipeline/openshift-pipelines-pipelines-operator-bundle-container-index@sha256:e4d37f9107e3f772bf63871a71c63dc9c84d6de484c077b98f7b79935a975e64
+  image: quay.io/openshift-pipeline/openshift-pipelines-pipelines-operator-bundle-container-index@sha256:d34f2de74b26b384643b04e5b391dc3216289f7e351ca36e8b46e4d8b03e47ce
   sourceType: grpc
   updateStrategy:
     registryPoll:
@@ -2211,7 +2215,7 @@ metadata:
   name: openshift-pipelines-operator
   namespace: openshift-operators
 spec:
-  channel: latest
+  channel: pipelines-5.0
   config:
     env:
     - name: AUTOINSTALL_COMPONENTS

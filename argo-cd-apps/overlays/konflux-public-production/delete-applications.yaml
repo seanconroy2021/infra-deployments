@@ -1,10 +1,4 @@
 ---
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: gitops
-$patch: delete
----
 # Tempo is excluded from the production
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -17,4 +11,25 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: kubearchive
+$patch: delete
+---
+# Workspaces CRD on member not yet ready to go to production
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: workspaces-member
+$patch: delete
+---
+# Workspaces is deprecated from production use cases
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: workspaces
+$patch: delete
+---
+# KubeArchive not yet ready to go to production
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: knative-eventing
 $patch: delete

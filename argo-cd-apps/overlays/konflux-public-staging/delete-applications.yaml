@@ -1,13 +1,13 @@
 ---
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: gitops
-$patch: delete
----
 # Tempo is excluded from the staging
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: tempo
+$patch: delete
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: proactive-scaler
 $patch: delete

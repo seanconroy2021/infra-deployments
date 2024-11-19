@@ -3,6 +3,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: multicluster-engine
+  annotations:
+    argocd.argoproj.io/sync-wave: "-3"
 
 ---
 apiVersion: operators.coreos.com/v1
@@ -25,7 +27,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
-  channel: stable-2.6
+  channel: stable-2.7
   installPlanApproval: Automatic
   name: multicluster-engine
   source: redhat-operators
